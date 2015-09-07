@@ -2,259 +2,377 @@
 
 /* global describe, it */
 
-var assert = require('assert');
+require('should'); // extends Object with `should`
+var Spy = require('./spy-glass.js')
 
-var rectangular = require('../src/js/rectangular.js');
+var RangeSelectionModel = require('../src/js/RangeSelectionModel.js');
 
-var Point = rectangular.Point,
-    Rectangle = rectangular.Rectangle;
-
-describe('rectangular module', function() {
-    describe('Point API', function() {
-        it('should have a constructor that sets x and y', function() {
-            var p1 = new Point(3, 4);
-            var p2 = new Point(3, 4);
-            assert.equal(p1.x, p2.x);
-            assert.equal(p1.y, p2.y);
-        });
-        it('has state that cannot be mutated', function() {
-            var p1 = new Point(3, 4);
-            var isImmutable = false;
-            try {
-                p1.x = 0;
-            } catch (e) {
-                isImmutable = true;
-            }
-            assert.equal(isImmutable, true);
-
-            isImmutable = false;
-            try {
-                p1.y = 0;
-            } catch (e) {
-                isImmutable = true;
-            }
-            assert.equal(isImmutable, true);
-        });
-        it('should have a `plus` function that adds another point', function() {
-            var p1 = new Point(3, 4);
-            var p2 = new Point(3, 4);
-            var p3 = p1.plus(p2);
-            assert.equal(p3.x, 6);
-            assert.equal(p3.y, 8);
-        });
-        it('should have a `plusXY` function that adds another point', function() {
-            var p1 = new Point(3, 4);
-            var p3 = p1.plusXY(10, 20);
-            assert.equal(p3.x, 13);
-            assert.equal(p3.y, 24);
-        });
-        it('should have a `minus` function that subtracts another point', function() {
-            var p1 = new Point(3, 4);
-            var p2 = new Point(3, 4);
-            var p3 = p1.minus(p2);
-            assert.equal(p3.x, 0);
-            assert.equal(p3.y, 0);
-        });
-        it('should have a `min` function that returns a point this is min of both x and y', function() {
-            var p1 = new Point(0, 10);
-            var p2 = new Point(10, 0);
-            var p3 = p1.min(p2);
-            assert.equal(p3.x, 0);
-            assert.equal(p3.y, 0);
-        });
-        it('should have a `max` function that returns a point this is max of both x and y', function() {
-            var p1 = new Point(0, 10);
-            var p2 = new Point(10, 0);
-            var p3 = p1.max(p2);
-            assert.equal(p3.x, 10);
-            assert.equal(p3.y, 10);
-        });
-        it('should have a `distance` function that returns the distance between itself and another point via Pythagorean Theorem', function() {
-            var p1 = new Point(1, 5);
-            var p2 = new Point(-2, 1);
-            assert.equal(p1.distance(p2), 5);
-        });
-        it('should have an `equals` function that returns true when x and y are the same for self and the arguement', function() {
-            var p1 = new Point(3, 4);
-            var p2 = new Point(3, 4);
-            var p3 = new Point(4, 4);
-            assert.equal(p1.equals(p2), true);
-            assert.equal(p1.equals(p3), false);
-        });
-        it('should have a `greaterThan` function that returns true if the argument has both larger x and y', function() {
-            var p0 = new Point(0, 0);
-            var p1 = new Point(-10, 10);
-            var p2 = new Point(10, -10);
-            var p3 = new Point(-10, -10);
-            assert.equal(p0.greaterThan(p0), false);
-            assert.equal(p0.greaterThan(p1), false);
-            assert.equal(p0.greaterThan(p2), false);
-            assert.equal(p0.greaterThan(p3), true);
-        });
-        it('should have a `greaterThanOrEqualTo` function that returns true if the argument has both larger and equal to x and y', function() {
-            var p0 = new Point(0, 0);
-            var p1 = new Point(0, 10);
-            var p2 = new Point(10, 0);
-            var p3 = new Point(-10, -10);
-            assert.equal(p0.greaterThanOrEqualTo(p0), true);
-            assert.equal(p0.greaterThanOrEqualTo(p1), false);
-            assert.equal(p0.greaterThanOrEqualTo(p2), false);
-            assert.equal(p0.greaterThanOrEqualTo(p3), true);
-        });
-        it('should have a `lessThan` function that returns true if the argument has both smaller x and y', function() {
-            var p0 = new Point(0, 0);
-            var p1 = new Point(-10, 10);
-            var p2 = new Point(10, -10);
-            var p3 = new Point(10, 10);
-            assert.equal(p0.lessThan(p0), false);
-            assert.equal(p0.lessThan(p1), false);
-            assert.equal(p0.lessThan(p2), false);
-            assert.equal(p0.lessThan(p3), true);
-        });
-        it('should have a `lessThanOrEqualTo` function that returns true if the argument has both smaller and equal to x and y', function() {
-            var p0 = new Point(0, 0);
-            var p1 = new Point(0, -10);
-            var p2 = new Point(-10, 0);
-            var p3 = new Point(10, 10);
-            assert.equal(p0.lessThanOrEqualTo(p0), true);
-            assert.equal(p0.lessThanOrEqualTo(p1), false);
-            assert.equal(p0.lessThanOrEqualTo(p2), false);
-            assert.equal(p0.lessThanOrEqualTo(p3), true);
-        });
-        it('should have a `within` function that returns true if this is inside the rectangle argument', function() {
-            var p0 = new Point(1, 1);
-            var r1 = new Rectangle(0, 0, 10, 10);
-            var r2 = new Rectangle(2, 2, 10, 10);
-            assert.equal(p0.within(r1), true);
-            assert.equal(p0.within(r2), false);
-        });
+describe('RangeSelectionModel that', function() {
+    it('is a function that', function() {
+        (typeof RangeSelectionModel).should.equal('function');
     });
-    describe('Rectangle API', function() {
-        it('should have a constructor that sets origin and extent', function() {
-            var r1 = new Rectangle(0, 0, 3, 4);
-            var r2 = new Rectangle(0, 0, 3, 4);
-            assert.equal(r1.origin.x, r2.origin.x);
-            assert.equal(r1.origin.y, r2.origin.y);
-            assert.equal(r1.extent.x, r2.extent.x);
-            assert.equal(r1.extent.y, r2.extent.y);
+    describe('when used as a constructor returns an API that', function() {
+        var model;
+        beforeEach(function() {
+            model = new RangeSelectionModel;
         });
-        it('constructor should accept negative extents', function() {
-            var r1 = new Rectangle(-3, -4, 3, 4);
-            var r2 = new Rectangle(0, 0, -3, -4);
-            assert.equal(r1.origin.x, r2.origin.x);
-            assert.equal(r1.origin.y, r2.origin.y);
-            assert.equal(r1.corner.x, r2.corner.x);
-            assert.equal(r1.corner.y, r2.corner.y);
-            assert.equal(r1.center.x, r2.center.x);
-            assert.equal(r1.center.y, r2.center.y);
-            assert.equal(r1.extent.x, r2.extent.x);
-            assert.equal(r1.extent.y, r2.extent.y);
-        });
-        it('has state that cannot be mutated', function() {
-            var r1 = new Rectangle(0, 0, 3, 4);
-            var isImmutable = false;
-            try {
-                r1.origin = new Point(10, 10);
-            } catch (e) {
-                isImmutable = true;
-            }
-            assert.equal(isImmutable, true);
-
-            isImmutable = false;
-            try {
-                r1.extent = new Point(10, 10);
-            } catch (e) {
-                isImmutable = true;
-            }
-            assert.equal(isImmutable, true);
-
-            isImmutable = false;
-            try {
-                r1.corner = new Point(10, 10);
-            } catch (e) {
-                isImmutable = true;
-            }
-            assert.equal(isImmutable, true);
-
-            isImmutable = false;
-            try {
-                r1.center = new Point(10, 10);
-            } catch (e) {
-                isImmutable = true;
-            }
-            assert.equal(isImmutable, true);
-        });
-        it('should have an `area` function that computes width * height', function() {
-            var r = new Rectangle(0, 0, 8, 9);
-            assert.equal(r.area, 8 * 9);
-        });
-        it('should have a `flattenXAt` function that smashes the rectangle at argument', function() {
-            var r = new Rectangle(0, 0, 10, 10);
-            var flattend = r.flattenXAt(5);
-            assert.equal(flattend.left, 5);
-            assert.equal(flattend.right, 5);
-            assert.equal(flattend.height, 10);
-            assert.equal(flattend.width, 0);
-        });
-        it('should have a `flattenYAt` function that smashes the rectangle at argument', function() {
-            var r = new Rectangle(0, 0, 10, 10);
-            var flattend = r.flattenYAt(5);
-            assert.equal(flattend.top, 5);
-            assert.equal(flattend.bottom, 5);
-            assert.equal(flattend.height, 0);
-            assert.equal(flattend.width, 10);
-        });
-        it('should have a `contains` function that determines if a point or rectangle argument is completely within self', function() {
-            var rect = new Rectangle(0, 0, 10, 10);
-            var rectInside = new Rectangle(2, 2, 5, 5);
-            var rectOverlap = new Rectangle(7, 7, 5, 5);
-            var rectOutside = new Rectangle(11, 11, 5, 5);
-            var pointInside = new Point(5, 5);
-            var pointOutside = new Point(15, 15);
-            assert.equal(rect.contains(rectInside), true);
-            assert.equal(rect.contains(rectOverlap), false);
-            assert.equal(rect.contains(rectOutside), false);
-            assert.equal(rect.contains(pointInside), true);
-            assert.equal(rect.contains(pointOutside), false);
-        });
-        it('should have a `growBy` function that returns a rectangle enlarged/shrunk by argument', function() {
-            var r = new Rectangle(0, 0, 10, 10);
-            var enlarged = r.growBy(-2);
-            var shrunk = r.growBy(2);
-            assert.equal(enlarged.area, 196);
-            assert.equal(shrunk.area, 36);
-        });
-        it('should have a `union` function that returns a rectangle that contains the receiver and the argument', function() {
-            var r1 = new Rectangle(0, 0, 5, 5);
-            var r2 = new Rectangle(7, 7, 3, 3);
-            var union = r1.union(r2);
-            assert.equal(union.contains(r1), true);
-            assert.equal(union.contains(r2), true);
-        });
-        it('should have a `forEach` function that iterates over all points within', function() {
-            var r = new Rectangle(0, 0, 4, 3);
-            var result = [];
-            r.forEach(function(x, y) {
-                result.push('(' + x + ',' + y + ')');
+        describe('has a member `selection` that', function() {
+            it('is an array', function () {
+                (model.selection instanceof Array).should.be.true();
             });
-            result = result.join('');
-            assert.equal(result, '(0,0)(0,1)(0,2)(1,0)(1,1)(1,2)(2,0)(2,1)(2,2)(3,0)(3,1)(3,2)');
+            it('is initially empty', function() {
+                model.selection.length.should.equal(0);
+            });
         });
-        it('should have an `intersect` function that returns a Rectangle that is the area in which the receiver overlaps with the argument', function() {
-            var r1 = new Rectangle(0, 0, 5, 5);
-            var r2 = new Rectangle(3, 3, 5, 5);
-            var intersection = r1.intersect(r2);
-            assert.equal(intersection.top, 3);
-            assert.equal(intersection.left, 3);
-            assert.equal(intersection.bottom, 5);
-            assert.equal(intersection.right, 5);
+        describe('has a member `select` that', function() {
+            it('is a function', function() {
+                (typeof model.select).should.equal('function');
+            });
+            it('returns identity for chaining', function () {
+                model.select(3).should.equal(model);
+            });
+            it('when called with A SINGLE numeric param (or a single array with a single numeric element) results in `selection` array with A SINGLE run that starts and ends with the same cell', function() {
+                model.select(3).selection.should.deepEqual([[3,3]]);
+                model.select(3).selection.should.deepEqual([[3,3]]);
+            });
+            it('when called with TWO IDENTICAL numeric params (or a single array with a two identical numeric elements) results in `selection` array with A SINGLE run that starts and ends with the same cell', function() {
+                model.select(4,4).selection.should.deepEqual([[4,4]]);
+                model.select([4,4]).selection.should.deepEqual([[4,4]]);
+            });
+            it('when called with ASCENDING params (or a single array with ascending elements) results in `selection` array with A SINGLE run that starts and ends with those cells in ASCENDING order', function() {
+                model.select(5,11).selection.should.deepEqual([[5,11]]);
+                model.select([5,11]).selection.should.deepEqual([[5,11]]);
+            });
+            it('when called with DESCENDING params (or a single array with descending elements) results in `selection` array with A SINGLE run (element) that starts and ends with those cells still in ASCENDING order', function() {
+                model.select(11,5).selection.should.deepEqual([[5,11]]);
+                model.select([11,5]).selection.should.deepEqual([[5,11]]);
+            });
+            it('when called TWICE with NON-OVERLAPPING, NON-ADJACENT runs in any order, results in `selection` array with TWO runs (elements)', function() {
+                model.select(3,4);
+                model.select(6,7).selection.should.deepEqual([[3,4],[6,7]]);
+            });
+            describe('when called TWICE with OVERLAPPING runs, results in `selection` array with A SINGLE run (element)', function() {
+                describe('where runs were selected in ascending order such that', function() {
+                    beforeEach(function() {
+                        model.select(3, 5);
+                    });
+                    describe('2nd run starts more than 1 point before 1st run\'s start point and', function () {
+                        it('ends more than 1 point after 1st run\'s end point', function () {
+                            model.select(1, 7).selection.should.deepEqual([[1, 7]]);
+                        });
+                        it('ends just after 1st run\'s end point', function () {
+                            model.select(1, 6).selection.should.deepEqual([[1, 6]]);
+                        });
+                        it('ends at 1st run\'s end point', function () {
+                            model.select(1, 5).selection.should.deepEqual([[1, 5]]);
+                        });
+                        it('ends before 1st run\'s end point', function () {
+                            model.select(1, 4).selection.should.deepEqual([[1, 5]]);
+                        });
+                    });
+                    describe('2nd run starts just before 1st run\'s start point and', function () {
+                        it('ends more than 1 point after 1st run\'s end point', function () {
+                            model.select(2, 7).selection.should.deepEqual([[2, 7]]);
+                        });
+                        it('ends just after 1st run\'s end point', function () {
+                            model.select(2, 6).selection.should.deepEqual([[2, 6]]);
+                        });
+                        it('ends at 1st run\'s end point', function () {
+                            model.select(2, 5).selection.should.deepEqual([[2, 5]]);
+                        });
+                        it('ends before 1st run\'s end point', function () {
+                            model.select(2, 4).selection.should.deepEqual([[2, 5]]);
+                        })
+                    });
+                    describe('2nd run starts at 1st run\'s start point and', function () {
+                        it('ends more than 1 point after 1st run\'s end point', function () {
+                            model.select(3, 7).selection.should.deepEqual([[3, 7]]);
+                        });
+                        it('ends just after 1st run\'s end point', function () {
+                            model.select(3, 6).selection.should.deepEqual([[3, 6]]);
+                        });
+                        it('ends at 1st run\'s end point', function () {
+                            model.select(3, 5).selection.should.deepEqual([[3, 5]]);
+                        });
+                        it('ends before 1st run\'s end point', function () {
+                            model.select(3, 4).selection.should.deepEqual([[3, 5]]);
+                        });
+                    });
+                    describe('2nd run starts between 1st run\'s start and end points and before ends', function () {
+                        it('ends more than 1 point after 1st run\'s end point', function () {
+                            model.select(4, 7).selection.should.deepEqual([[3, 7]]);
+                        });
+                        it('ends just after 1st run\'s end point', function () {
+                            model.select(4, 6).selection.should.deepEqual([[3, 6]]);
+                        });
+                        it('ends at 1st run\'s end point', function () {
+                            model.select(4, 5).selection.should.deepEqual([[3, 5]]);
+                        });
+                        it('ends before 1st run\'s end point', function () {
+                            model.select(4, 4).selection.should.deepEqual([[3, 5]]);
+                        });
+                    });
+                    describe('2nd run starts at 1st run\'s end point and', function () {
+                        it('ends more than 1 point after 1st run\'s end point', function () {
+                            model.select(5, 7).selection.should.deepEqual([[3, 7]]);
+                        });
+                        it('ends just after 1st run\'s end point', function () {
+                            model.select(5, 6).selection.should.deepEqual([[3, 6]]);
+                        });
+                        it('ends at 1st run\'s end point', function () {
+                            model.select(5, 5).selection.should.deepEqual([[3, 5]]);
+                        });
+                    });
+                });
+                describe('where runs were selected in descending order such that', function() {
+                    describe('1st run starts more than 1 point before 2nd run\'s start point and', function () {
+                        it('ends more than 1 point after 2nd run\'s end point', function () {
+                            model.select(1, 7).select(3, 5).selection.should.deepEqual([[1, 7]]);
+                        });
+                        it('ends just after 2nd run\'s end point', function () {
+                            model.select(1, 6).select(3, 5).selection.should.deepEqual([[1, 6]]);
+                        });
+                        it('ends at 2nd run\'s end point', function () {
+                            model.select(1, 5).select(3, 5).selection.should.deepEqual([[1, 5]]);
+                        });
+                        it('ends before 2nd run\'s end point', function () {
+                            model.select(1, 4).select(3, 5).selection.should.deepEqual([[1, 5]]);
+                        });
+                    });
+                    describe('1st run starts just before 2nd run\'s start point and', function () {
+                        it('ends more than 1 point after 2nd run\'s end point', function () {
+                            model.select(2, 7).select(3, 5).selection.should.deepEqual([[2, 7]]);
+                        });
+                        it('ends just after 2nd run\'s end point', function () {
+                            model.select(2, 6).select(3, 5).selection.should.deepEqual([[2, 6]]);
+                        });
+                        it('ends at 2nd run\'s end point', function () {
+                            model.select(2, 5).select(3, 5).selection.should.deepEqual([[2, 5]]);
+                        });
+                        it('ends before 2nd run\'s end point', function () {
+                            model.select(2, 4).select(3, 5).selection.should.deepEqual([[2, 5]]);
+                        })
+                    });
+                    describe('1st run starts at 2nd run\'s start point and', function () {
+                        it('ends more than 1 point after 2nd run\'s end point', function () {
+                            model.select(3, 7).select(3, 5).selection.should.deepEqual([[3, 7]]);
+                        });
+                        it('ends just after 2nd run\'s end point', function () {
+                            model.select(3, 6).select(3, 5).selection.should.deepEqual([[3, 6]]);
+                        });
+                        it('ends at 2nd run\'s end point', function () {
+                            model.select(3, 5).select(3, 5).selection.should.deepEqual([[3, 5]]);
+                        });
+                        it('ends before 2nd run\'s end point', function () {
+                            model.select(3, 4).select(3, 5).selection.should.deepEqual([[3, 5]]);
+                        });
+                    });
+                    describe('1st run starts between 2nd run\'s start and end points and before ends', function () {
+                        it('ends more than 1 point after 2nd run\'s end point', function () {
+                            model.select(4, 7).select(3, 5).selection.should.deepEqual([[3, 7]]);
+                        });
+                        it('ends just after 2nd run\'s end point', function () {
+                            model.select(4, 6).select(3, 5).selection.should.deepEqual([[3, 6]]);
+                        });
+                        it('ends at 2nd run\'s end point', function () {
+                            model.select(4, 5).select(3, 5).selection.should.deepEqual([[3, 5]]);
+                        });
+                        it('ends before 2nd run\'s end point', function () {
+                            model.select(4, 4).select(3, 5).selection.should.deepEqual([[3, 5]]);
+                        });
+                    });
+                    describe('1st run starts at 2nd run\'s end point and', function () {
+                        it('ends more than 1 point after 2nd run\'s end point', function () {
+                            model.select(5, 7).select(3, 5).selection.should.deepEqual([[3, 7]]);
+                        });
+                        it('ends just after 2nd run\'s end point', function () {
+                            model.select(5, 6).select(3, 5).selection.should.deepEqual([[3, 6]]);
+                        });
+                        it('ends at 2nd run\'s end point', function () {
+                            model.select(5, 5).select(3, 5).selection.should.deepEqual([[3, 5]]);
+                        });
+                    });
+                });
+            });
+            describe('when called TWICE with ADJACENT runs, results in `selection` array with A SINGLE run (element) that covers both', function() {
+                it('where runs were selected in ascending order', function() {
+                    model.select(3, 4).select(5, 7).selection.should.deepEqual([[3, 7]]);
+                });
+                it('where runs were selected in descending order', function() {
+                    model.select(5, 7).select(3, 4).selection.should.deepEqual([[3, 7]]);
+                });
+            });
+            describe('when called THRICE with 2 NON-ADJACENT, NON-OVERLAPPING runs', function() {
+                beforeEach(function() {
+                    model.select(1, 3).select(7, 9);
+                });
+                describe('results in `selection` array with A SINGLE run (element)', function() {
+                    describe('when a 3rd run COMPLETELY OVERLAPS 1st run and', function() {
+                        it('is ADJACENT to 2nd run', function() {
+                            model.select(0, 6).selection.should.deepEqual([[0, 9]]);
+                        });
+                        it('PARTIALLY OVERLAPS 2nd run', function() {
+                            model.select(0, 8).selection.should.deepEqual([[0, 9]]);
+                        });
+                        it('COMPLETELY OVERLAPS 2nd run', function() {
+                            model.select(0, 10).selection.should.deepEqual([[0, 10]]);
+                        });
+                    });
+                    describe('when a 3rd run is ADJACENT to 1st run and', function() {
+                        it('is ADJACENT to 2nd run', function() {
+                            model.select(4, 6).selection.should.deepEqual([[1, 9]]);
+                        });
+                        it('PARTIALLY OVERLAPS 2nd run', function() {
+                            model.select(4, 8).selection.should.deepEqual([[1, 9]]);
+                        });
+                        it('COMPLETELY OVERLAPS 2nd run', function() {
+                            model.select(4, 10).selection.should.deepEqual([[1, 10]]);
+                        });
+                    });
+                    describe('when a 3rd PARTIALLY OVERLAPS 1st run and', function() {
+                        it('is ADJACENT to 2nd run', function() {
+                            model.select(2, 6).selection.should.deepEqual([[1, 9]]);
+                        });
+                        it('PARTIALLY OVERLAPS 2nd run', function() {
+                            model.select(2, 8 ).selection.should.deepEqual([[1, 9]]);
+                        });
+                        it('COMPLETELY OVERLAPS 2nd run', function() {
+                            model.select(2, 10).selection.should.deepEqual([[1, 10]]);
+                        });
+                    });
+                });
+                describe('results in `selection` array with TWO runs (elements) when a 3rd run that DOES NOT EXTEND TO 2nd run', function() {
+                    // these expected results reflect the peculiarities of current algorithm regarding the order of runs (which are officially unordered)
+                    it('COMPLETELY OVERLAPS 1st run', function() {
+                        model.select(0, 5).selection.should.deepEqual([[7, 9], [0, 5]]);
+                    });
+                    it('is ADJACENT to 1st run', function() {
+                        model.select(4, 5).selection.should.deepEqual([[7, 9], [1, 5]]);
+                    });
+                    it('PARTIALLY OVERLAPS 1st run', function() {
+                        model.select(2, 5).selection.should.deepEqual([[7, 9], [1, 5]]);
+                    });
+                });
+            });
         });
-        it('should have an `intersects` function that returns true if this overlaps with the argument, false otherwise', function() {
-            var r1 = new Rectangle(0, 0, 5, 5);
-            var overlaps = new Rectangle(3, 3, 5, 5);
-            var outside = new Rectangle(6, 6, 5, 5);
-            assert.equal(r1.intersects(overlaps), true);
-            assert.equal(r1.intersects(outside), false);
+        describe('has a member `deselect` that', function() {
+            beforeEach(function() {
+                model.select(3, 5);
+            });
+            it('is a function', function () {
+                (typeof model.deselect).should.equal('function');
+            });
+            it('returns identity for chaining', function () {
+                model.deselect(0).should.equal(model);
+            });
+            it('when called with a run in the middle of an existing run, breaks the existing run in TWO runs', function() {
+                model.deselect(4).selection.should.deepEqual([[3, 3], [5, 5]]);
+            });
+            it('when called with a run that truncates two existing runs, replaces existing runs with remaining portion of each', function() {
+                model.select(7, 10).deselect(4, 9).selection.should.deepEqual([[3, 3], [10, 10]]);
+            });
+            it('when called with a run with no overlap at all, leaves original run intact', function() {
+                model.deselect(1).selection.should.deepEqual([[3, 5]]);
+                model.deselect(2).selection.should.deepEqual([[3, 5]]);
+                model.deselect(6).selection.should.deepEqual([[3, 5]]);
+                model.deselect(7).selection.should.deepEqual([[3, 5]]);
+            });
+            describe('when called with an obscuring run, completely removes the existing run', function() {
+                it('when the obscuring run PRECISELY OVERLAPS the existing run', function() {
+                    model.deselect(3, 5).selection.length.should.equal(0);
+                });
+                describe('when the obscuring run EXCESSIVELY OVERLAPS the existing run', function() {
+                    it('with excess before', function() {
+                        model.deselect(2, 5).selection.length.should.equal(0);
+                    });
+                    it('with excess after', function() {
+                        model.deselect(3, 6).selection.length.should.equal(0);
+                    });
+                    it('with excess before and after', function() {
+                        model.deselect(2, 6).selection.length.should.equal(0);
+                    });
+                });
+            });
+            describe('when called with a PARTIALLY OVERLAPPING run, truncates the existing run', function() {
+                it('from before its start, leaving a run of a single point', function() {
+                    model.deselect(2, 4).selection.should.deepEqual([[5, 5]]);
+                });
+                it('from its start, leaving a run of a single point', function() {
+                    model.deselect(3, 4).selection.should.deepEqual([[5, 5]]);
+                });
+                it('from its start, leaving a run of multiple points', function() {
+                    model.deselect(3, 3).selection.should.deepEqual([[4, 5]]);
+                });
+                it('from after its end, leaving a run of a single point', function() {
+                    model.deselect(4, 6).selection.should.deepEqual([[3, 3]]);
+                });
+                it('from its end, leaving a run of a single point', function() {
+                    model.deselect(4, 5).selection.should.deepEqual([[3, 3]]);
+                });
+                it('from its end, leaving a run of multiple points', function() {
+                    model.deselect(5, 5).selection.should.deepEqual([[3, 4]]);
+                });
+            });
+        });
+        describe('has a member `isSelected` that', function() {
+            beforeEach(function () {
+                model.select(3, 5).select(9,11);
+            });
+            it('is a function', function () {
+                (typeof model.deselect).should.equal('function');
+            });
+            describe('when called with a point', function() {
+                it('before 1st run, returns `false`', function () {
+                    model.isSelected(1).should.be.not.ok();
+                });
+                it('adjacent to 1st run, returns `false`', function () {
+                    model.isSelected(2).should.be.not.ok();
+                });
+                it('of 1st run\'s start, returns `true`', function () {
+                    model.isSelected(3).should.be.ok();
+                });
+                it('in middle of 1st run, returns `true`', function () {
+                    model.isSelected(4).should.be.ok();
+                });
+                it('of 1st run\'s stop, returns `true`', function () {
+                    model.isSelected(5).should.be.ok();
+                });
+                it('adjacent to 1st run, returns `false`', function () {
+                    model.isSelected(6).should.be.not.ok();
+                });
+                it('after 1st run and before 2nd run, returns `false`', function () {
+                    model.isSelected(7).should.be.not.ok();
+                });
+                it('adjacent to 2nd run, returns `false`', function () {
+                    model.isSelected(8).should.be.not.ok();
+                });
+                it('of 2nd run\'s start, returns `true`', function () {
+                    model.isSelected(9).should.be.ok();
+                });
+                it('in middle of 2nd run, returns `true`', function () {
+                    model.isSelected(10).should.be.ok();
+                });
+                it('of 2nd run\'s stop, returns `true`', function () {
+                    model.isSelected(11).should.be.ok();
+                });
+                it('adjacent to 2nd run, returns `false`', function () {
+                    model.isSelected(12).should.be.not.ok();
+                });
+                it('after 2nd run, returns `false`', function () {
+                    model.isSelected(13).should.be.not.ok();
+                });
+            });
+        });
+        describe('has a member `clear` that', function() {
+            it('is a function', function () {
+                (typeof model.select).should.equal('function');
+            });
+            it('returns identity for chaining', function () {
+                model.clear().should.equal(model);
+            });
+            it('when called, empties `selection`', function() {
+                model.select(1, 2).select(4, 5).clear().selection.length.should.equal(0);
+            });
         });
     });
 });

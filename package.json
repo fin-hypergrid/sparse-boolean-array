@@ -1,7 +1,7 @@
 {
   "name": "bool-rle",
   "version": "0.1.0",
-  "description": "Run-lenght-encoded booleans",
+  "description": "Run-length-encoded boolean array",
   "repository": {
     "type": "git",
     "url": "git://github.com/openfin/bool-rle.git"
@@ -17,6 +17,7 @@
     "gulp-exclude-gitignore": "^1.0.0",
     "gulp-mocha": "^2.1.3",
     "gulp-plumber": "^1.0.1",
-    "jsdoc": "^3.3.2"
+    "jsdoc": "^3.3.2",
+    "should": "^7.1.0"
   }
 }
