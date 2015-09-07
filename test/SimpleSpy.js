@@ -3,7 +3,7 @@
  * @author Jonathan Eiten
  * @license MIT
  *
- * Instantiating a `Spyglass` object lets you spy on a particular method:
+ * Instantiating a `SimpleSpy` object lets you spy on a particular method:
  * * Observe how many times the method was called (records the particular parameters for each call)
  * * Call through to the method
  * * Call through to a mock function instead (which can the call through on its own)
@@ -14,7 +14,7 @@
  * @param {object} object - Object containing a method `methodName` to spy on.
  * @param {string} methodName - The name of the method in `object` to spy on.
  */
-function Spyglass(object, methodName) {
+function SimpleSpy(object, methodName) {
     var method = object[methodName];
 
     if (typeof method !== 'function') {
@@ -40,7 +40,7 @@ function Spyglass(object, methodName) {
     this.reset();
 }
 
-Spyglass.prototype = {
+SimpleSpy.prototype = {
 
     /**
      * @abstract
@@ -59,7 +59,7 @@ Spyglass.prototype = {
      *
      * Note that the context in the above (`this` and `arguments`) is the mock function body.
      *
-     * @memberOf Spyglass.prototype
+     * @memberOf SimpleSpy.prototype
      */
 
     /**
@@ -69,9 +69,9 @@ Spyglass.prototype = {
      * @default true
      * @summary Whether or not to record calls to the original method.
      * @desc If truthy, calls to the original method are recorded in `this.callHistory`.
-     * @see {@link Spyglass|on} shorthand to turn historical recording **ON**.
-     * @see {@link Spyglass|off} shorthand to turn historical recording **OFF**.
-     * @memberOf Spyglass.prototype
+     * @see {@link SimpleSpy|on} shorthand to turn historical recording **ON**.
+     * @see {@link SimpleSpy|off} shorthand to turn historical recording **OFF**.
+     * @memberOf SimpleSpy.prototype
      */
 
     /**
@@ -84,7 +84,7 @@ Spyglass.prototype = {
      * Note: This method does not disentangle the spy.
      * @param object
      * @param methodName
-     * @memberOf Spyglass.prototype
+     * @memberOf SimpleSpy.prototype
      */
     reset: function (object, methodName) {
         this.on();
@@ -94,7 +94,7 @@ Spyglass.prototype = {
 
     /**
      * @summary Resets the call history to an empty list.
-     * @memberOf Spyglass.prototype
+     * @memberOf SimpleSpy.prototype
      */
     clear: function () {
         this.callHistory = [];
@@ -102,7 +102,7 @@ Spyglass.prototype = {
 
     /**
      * @summary Turns historical recording *ON*.
-     * @memberOf Spyglass.prototype
+     * @memberOf SimpleSpy.prototype
      */
     on: function () {
         this.isRecording = true;
@@ -110,7 +110,7 @@ Spyglass.prototype = {
 
     /**
      * @summary Turns historical recording *OFF*.
-     * @memberOf Spyglass.prototype
+     * @memberOf SimpleSpy.prototype
      */
     off: function () {
         this.isRecording = false;
@@ -122,7 +122,7 @@ Spyglass.prototype = {
      * @desc The spied-upon method is restored to its original state.
      * This method is provided for tear down.
      * The spy object is now a lame duck and may be disposed of.
-     * @memberOf Spyglass.prototype
+     * @memberOf SimpleSpy.prototype
      */
     retire: function () {
         if (this.object && this.methodName && this.method) { // if spying...
@@ -147,7 +147,7 @@ Spyglass.prototype = {
      * Note that there is no way to determine if the spied-upon method was called without any parameters.
      *
      * @param {*} [arg...] - "Exact" (i.e., ===) arguments required to have been supplied to the spied-upon method
-     * @memberOf Spyglass.prototype
+     * @memberOf SimpleSpy.prototype
      */
     wasCalled: function () {
         if (arguments.length) {
@@ -169,7 +169,7 @@ Spyglass.prototype = {
 };
 
 // synonyms:
-Spyglass.prototype.close = Spyglass.prototype.retire;
+SimpleSpy.prototype.close = SimpleSpy.prototype.retire;
 
 
-module.exports = Spyglass; // Node.js support
+module.exports = SimpleSpy; // Node.js support
