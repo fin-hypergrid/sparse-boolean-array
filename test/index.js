@@ -3,7 +3,7 @@
 /* global describe, it, beforeEach, afterEach */
 
 require('should'); // extends Object with `should`
-var Spy = require('./SimpleSpy.js')
+var Spy = require('mojo-spy');
 
 var RangeSelectionModel = require('../src/js/RangeSelectionModel.js');
 
