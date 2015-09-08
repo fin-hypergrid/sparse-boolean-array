@@ -1,5 +1,5 @@
 /**
- * @constructor Spyglass
+ * @constructor SimpleSpy
  * @author Jonathan Eiten
  * @license MIT
  *
@@ -78,7 +78,7 @@ SimpleSpy.prototype = {
      * @summary Resets options.
      * @desc This method resets the options to their default values:
      * * Record calling history
-     * * Block call throughs
+     * * Block call-throughs
      * * Empty the history list
      *
      * Note: This method does not disentangle the spy.

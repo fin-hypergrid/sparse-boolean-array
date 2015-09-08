@@ -1,6 +1,6 @@
 'use strict';
 
-/* global describe, it */
+/* global describe, it, beforeEach, afterEach */
 
 require('should'); // extends Object with `should`
 var Spy = require('./SimpleSpy.js')
@@ -323,43 +323,43 @@ describe('RangeSelectionModel that', function() {
             });
             describe('when called with a point', function() {
                 it('before 1st run, returns `false`', function () {
-                    model.isSelected(1).should.be.not.ok();
+                    model.isSelected(1).should.be.false();
                 });
                 it('adjacent to 1st run, returns `false`', function () {
-                    model.isSelected(2).should.be.not.ok();
+                    model.isSelected(2).should.be.false();
                 });
                 it('of 1st run\'s start, returns `true`', function () {
-                    model.isSelected(3).should.be.ok();
+                    model.isSelected(3).should.be.true();
                 });
                 it('in middle of 1st run, returns `true`', function () {
-                    model.isSelected(4).should.be.ok();
+                    model.isSelected(4).should.be.true();
                 });
                 it('of 1st run\'s stop, returns `true`', function () {
-                    model.isSelected(5).should.be.ok();
+                    model.isSelected(5).should.be.true();
                 });
                 it('adjacent to 1st run, returns `false`', function () {
-                    model.isSelected(6).should.be.not.ok();
+                    model.isSelected(6).should.be.false();
                 });
                 it('after 1st run and before 2nd run, returns `false`', function () {
-                    model.isSelected(7).should.be.not.ok();
+                    model.isSelected(7).should.be.false();
                 });
                 it('adjacent to 2nd run, returns `false`', function () {
-                    model.isSelected(8).should.be.not.ok();
+                    model.isSelected(8).should.be.false();
                 });
                 it('of 2nd run\'s start, returns `true`', function () {
-                    model.isSelected(9).should.be.ok();
+                    model.isSelected(9).should.be.true();
                 });
                 it('in middle of 2nd run, returns `true`', function () {
-                    model.isSelected(10).should.be.ok();
+                    model.isSelected(10).should.be.true();
                 });
                 it('of 2nd run\'s stop, returns `true`', function () {
-                    model.isSelected(11).should.be.ok();
+                    model.isSelected(11).should.be.true();
                 });
                 it('adjacent to 2nd run, returns `false`', function () {
-                    model.isSelected(12).should.be.not.ok();
+                    model.isSelected(12).should.be.false();
                 });
                 it('after 2nd run, returns `false`', function () {
-                    model.isSelected(13).should.be.not.ok();
+                    model.isSelected(13).should.be.false();
                 });
             });
         });
