@@ -26,7 +26,7 @@
      *
      * @returns {RangeSelectionModel} Self (i.e., `this` object).
      */
-    function RangeSelectionModel(start, stop) {
+    function RangeSelectionModel() {
         /**
          * @name selection
          * @type {Array.Array.number}
@@ -166,7 +166,7 @@
             run1[0] <= run2[1] && run2[1] <= run1[1] || // run2's stop is within run1 OR...
             run2[0] <  run1[0] && run1[1] <  run2[1]    // run2 completely contains run1
         );
-    };
+    }
 
     /**
      * @private
@@ -184,7 +184,7 @@
             run1[1] === run2[0] - 1 || // run1's top immediately precedes run2's start OR...
             run2[1] === run1[0] - 1    // run2's top immediately precedes run1's start
         );
-    };
+    }
 
     /**
      * @private
@@ -211,17 +211,14 @@
         if (s0 <= m0 && s1 < m1) {
             //subtrahend extends before minuend: return remaining piece of `minuend`
             result.push([s1 + 1, m1]);
-        }
-        else if (s0 > m0 && s1 >= m1) {
+        } else if (s0 > m0 && s1 >= m1) {
             //subtrahend extends after minuend: return remaining piece of `minuend`
             result.push([m0, s0 - 1]);
-        }
-        else if (m0 < s0 && s1 < m1) {
+        } else if (m0 < s0 && s1 < m1) {
             //completely inside: return 2 smaller pieces resulting from the hole
             result.push([m0, s0 - 1]);
             result.push([s1 + 1, m1]);
-        }
-        else if (s1 < m0 || s0 > m1) {
+        } else if (s1 < m0 || s0 > m1) {
             // completely outside: return `minuend` untouched
             result.push(minuend);
         }
@@ -229,7 +226,7 @@
         //else subtrahend must completely overlap minuend so return no pieces
 
         return result;
-    };
+    }
 
 
     // Local utility functions
@@ -251,7 +248,7 @@
         var min = Math.min(Math.min.apply(Math, run1), Math.min.apply(Math, run2));
         var max = Math.max(Math.max.apply(Math, run1), Math.max.apply(Math, run2));
         return [min, max];
-    };
+    }
 
 
     // External interface
