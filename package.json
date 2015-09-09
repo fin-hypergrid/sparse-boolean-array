@@ -1,6 +1,6 @@
 {
   "name": "sparse-boolean-array",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "main": "./src/js/RangeSelectionModel.js",
   "description": "Run-length-encoded sparse boolean arrays",
   "repository": {
