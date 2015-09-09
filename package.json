@@ -1,11 +1,11 @@
 {
-  "name": "bool-rle",
-  "version": "0.1.0",
+  "name": "sparse-boolean-array",
+  "version": "0.9.0",
   "main": "./src/js/RangeSelectionModel.js",
-  "description": "Run-length-encoded boolean array",
+  "description": "Run-length-encoded sparse boolean arrays",
   "repository": {
     "type": "git",
-    "url": "git://github.com/openfin/bool-rle.git"
+    "url": "git://github.com/openfin/sparse-boolean-array.git"
   },
   "scripts": {
     "test": "gulp test"
