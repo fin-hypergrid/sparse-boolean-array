@@ -6,4 +6,4 @@ for important information on cloning or re-purposing this repo.\]
 
 ## API documentation
 
-Detailed API docs can be found [here](http://openfin.github.io/sparse-boolean-array/).
+Detailed API docs can be found [here](http://openfin.github.io/sparse-boolean-array/RangeSelectionModel.html).
