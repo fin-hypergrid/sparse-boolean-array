@@ -43,6 +43,10 @@
 
     RangeSelectionModel.prototype = {
 
+        isEmpty: function (){
+            return this.selection.length === 0;
+        },
+
         /**
          * @summary Return the indexes that are selected.
          * @desc Return the indexes that are selected.
