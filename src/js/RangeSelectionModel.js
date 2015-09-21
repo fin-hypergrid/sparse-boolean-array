@@ -44,6 +44,25 @@
     RangeSelectionModel.prototype = {
 
         /**
+         * @summary Return the indexes that are selected.
+         * @desc Return the indexes that are selected.
+         * @returns {Array of Integers}.
+         * @memberOf RangeSelectionModel.prototype
+         */
+        getSelections: function (){
+            var result = [];
+            this.selection.forEach(function (each) {
+                for (var i = each[0]; i <= each[1]; i++) {
+                    result.push(i);
+                }
+            });
+            result.sort(function (a, b){
+                return a - b;
+            });
+            return result;
+        },
+
+        /**
          * @summary Add a contiguous run of points to the selection.
          * @desc Insert a new run into `this.selection`.
          * The new run will be merged with overlapping and adjacent runs.
