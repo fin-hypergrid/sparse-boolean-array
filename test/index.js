@@ -24,6 +24,17 @@ describe('RangeSelectionModel that', function() {
                 model.selection.length.should.equal(0);
             });
         });
+        describe('has a member `getSelections` that', function() {
+            it('is a function', function() {
+                (typeof model.getSelections).should.equal('function');
+            });
+            it('returns the indexes of the current selections after it has been populated', function() {
+                model.select(3, 10);
+                model.select(20, 25);
+                model.select(1000000, 1000005);
+                model.getSelections().should.deepEqual([3,4,5,6,7,8,9,10,20,21,22,23,24,25,1000000,1000001,1000002,1000003,1000004,1000005]);
+            });
+        });
         describe('has a member `select` that', function() {
             it('is a function', function() {
                 (typeof model.select).should.equal('function');
