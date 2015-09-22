@@ -133,7 +133,7 @@
         },
 
         clearMostRecentSelection: function () {
-            this.selections = this.states.pop();
+            this.selection = this.states.pop();
         },
 
         /**
