@@ -39,32 +39,26 @@
          * @abstract
          */
         this.selection = [];
+
+        //we need to be able to go back in time
+        //the states field
+        this.states = [];
+
+        //clone and store my current state
+        //so we can unwind changes if need be
+        this.storeState = function () {
+            var sels = this.selection;
+            var state = [];
+            var copy;
+            for (var i = 0; i < sels.length; i++) {
+                copy = [].concat(sels[i]);
+                state.push(copy);
+            }
+            this.states.push(state);
+        };
     }
 
     RangeSelectionModel.prototype = {
-
-        isEmpty: function (){
-            return this.selection.length === 0;
-        },
-
-        /**
-         * @summary Return the indexes that are selected.
-         * @desc Return the indexes that are selected.
-         * @returns {Array of Integers}.
-         * @memberOf RangeSelectionModel.prototype
-         */
-        getSelections: function (){
-            var result = [];
-            this.selection.forEach(function (each) {
-                for (var i = each[0]; i <= each[1]; i++) {
-                    result.push(i);
-                }
-            });
-            result.sort(function (a, b){
-                return a - b;
-            });
-            return result;
-        },
 
         /**
          * @summary Add a contiguous run of points to the selection.
@@ -82,6 +76,7 @@
          * @memberOf RangeSelectionModel.prototype
          */
         select: function (start, stop) {
+            this.storeState();
             var run = makeRun(start, stop);
             var splicer = [0, 1];
             this.selection.forEach(function (each) {
@@ -127,6 +122,21 @@
         },
 
         /**
+         * @summary Empties `this.selection`, effectively removing all runs.
+         * @returns {RangeSelectionModel} Self (i.e., `this`), for chaining.
+         * @memberOf RangeSelectionModel.prototype
+         */
+        clear: function () {
+            this.states.length = 0;
+            this.selection.length = 0;
+            return this;
+        },
+
+        clearMostRecentSelection: function () {
+            this.selections = this.states.pop();
+        },
+
+        /**
          * @summary Determines if the given `cell` is selected.
          * @returns {boolean} `true` iff given `cell` is within any of the runs in `this.selection`.
          * @param {number} cell - The cell to test for inclusion in the selection.
@@ -138,14 +148,27 @@
             });
         },
 
+        isEmpty: function (){
+            return this.selection.length === 0;
+        },
+
         /**
-         * @summary Empties `this.selection`, effectively removing all runs.
-         * @returns {RangeSelectionModel} Self (i.e., `this`), for chaining.
+         * @summary Return the indexes that are selected.
+         * @desc Return the indexes that are selected.
+         * @returns {Array.Array.number}
          * @memberOf RangeSelectionModel.prototype
          */
-        clear: function () {
-            this.selection.length = 0;
-            return this;
+        getSelections: function (){
+            var result = [];
+            this.selection.forEach(function (each) {
+                for (var i = each[0]; i <= each[1]; i++) {
+                    result.push(i);
+                }
+            });
+            result.sort(function (a, b){
+                return a - b;
+            });
+            return result;
         }
 
     };
