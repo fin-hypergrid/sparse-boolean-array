@@ -155,7 +155,7 @@
         /**
          * @summary Return the indexes that are selected.
          * @desc Return the indexes that are selected.
-         * @returns {Array of Integers}.
+         * @returns {Array.Array.number}
          * @memberOf RangeSelectionModel.prototype
          */
         getSelections: function (){
