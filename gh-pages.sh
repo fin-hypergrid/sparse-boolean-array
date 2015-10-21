@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 org="openfin"
 
 # set variable repo to current directory name (without path)
@@ -24,10 +25,11 @@ git rm -rf -q .
 # copy the doc directory from the workspace
 cp -R ../../$repo/doc/* . >/dev/null
 
-# copy all source files from src/js to the cdn directory here
-ln -s ../../$repo/src/js src
-ls src | while read a; do uglify -s src/$a -o ${a%.js}.min.js; done
-rm src
+# copy index.js from repo/. to the cdn directory as $module.js
+cp ../../$repo/index.js ./$module.js >/dev/null
+
+# make a minified version
+uglify -s $module.js -o $module.min.js
 
 # send it up
 git add . >/dev/null
