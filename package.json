@@ -1,7 +1,7 @@
 {
   "name": "sparse-boolean-array",
-  "version": "0.9.1",
-  "main": "./src/js/RangeSelectionModel.js",
+  "version": "1.0.0",
+  "main": "index.js",
   "description": "Run-length-encoded sparse boolean arrays",
   "repository": {
     "type": "git",
@@ -16,10 +16,12 @@
     "gulp": "^3.9.0",
     "gulp-eslint": "^1.0.0",
     "gulp-exclude-gitignore": "^1.0.0",
+    "gulp-load-plugins": "^1.0.0",
     "gulp-mocha": "^2.1.3",
-    "gulp-plumber": "^1.0.1",
+    "gulp-rename": "^1.2.2",
     "jsdoc": "^3.3.2",
     "mojo-spy": "^0.1.0",
+    "run-sequence": "^1.1.4",
     "should": "^7.1.0"
   }
 }

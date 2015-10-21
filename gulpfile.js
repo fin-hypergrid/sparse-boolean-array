@@ -1,43 +1,60 @@
 'use strict';
 
-var gulp      = require('gulp');
-var eslint    = require('gulp-eslint');
-var gitignore = require('gulp-exclude-gitignore');
-var mocha     = require('gulp-mocha');
-var plumber   = require('gulp-plumber');
-var exec      = require('child_process').exec;
-var path      = require('path');
+var gulp = require('gulp'),
+    $$   = require('gulp-load-plugins')();
 
-var src = './src/';
-var jsDir = src + 'js/';
-var jsFiles = '**/*.js';
+var runSequence = require('run-sequence'),
+    exec        = require('child_process').exec,
+    path        = require('path');
+
+var srcDir  = './src/',
+    testDir = './test/',
+    jsDir   = srcDir + 'js/',
+    jsFiles = '**/*.js',
+    destDir = './';
 
 var js = {
     dir   : jsDir,
-    files : jsFiles,
-    path  : jsDir + jsFiles
+    files : jsDir + jsFiles
 };
 
+//  //  //  //  //  //  //  //  //  //  //  //
+
+gulp.task('lint', lint);
+gulp.task('test', test);
+gulp.task('doc', doc);
+
+gulp.task('rootify', function () {
+    gulp.src(js.dir + 'RangeSelectionModel.js')
+        .pipe($$.rename('index.js'))
+        .pipe(gulp.dest(destDir));
+});
+
+gulp.task('build', function(callback) {
+    clearBashScreen();
+    runSequence('lint', 'test', 'doc', 'rootify',
+        callback);
+});
+
+gulp.task('watch', function () {
+    gulp.watch([srcDir + '**', testDir + '**'], ['build']);
+});
+
+gulp.task('default', ['watch', 'build']);
+
+//  //  //  //  //  //  //  //  //  //  //  //
+
 function lint() {
-    return gulp.src(js.path)
-        .pipe(gitignore())
-        .pipe(eslint())
-        .pipe(eslint.format())
-        .pipe(eslint.failAfterError());
+    return gulp.src(js.files)
+        .pipe($$.excludeGitignore())
+        .pipe($$.eslint())
+        .pipe($$.eslint.format())
+        .pipe($$.eslint.failAfterError());
 }
 
 function test(cb) {
-    var mochaErr;
-
-    gulp.src('test/index.js')
-        .pipe(plumber())
-        .pipe(mocha({reporter: 'spec'}))
-        .on('error', function(err) {
-            mochaErr = err;
-        })
-        .on('end', function() {
-            cb(mochaErr);
-        });
+    return gulp.src(testDir + 'index.js')
+        .pipe($$.mocha({reporter: 'spec'}));
 }
 
 function doc(cb) {
@@ -48,15 +65,8 @@ function doc(cb) {
     });
 }
 
-gulp.task('lint', lint);
-gulp.task('test', test);
-gulp.task('doc', doc);
+function clearBashScreen() {
+    var ESC = '\x1B';
+    console.log(ESC + 'c'); // (VT-100 escape sequence)
+}
 
-gulp.task('depTest', ['lint'], test);
-gulp.task('depDoc', ['depTest'], doc);
-
-gulp.task('watch', function() {
-    gulp.watch(js.path, ['default']);
-});
-
-gulp.task('default', ['depDoc', 'watch']);
