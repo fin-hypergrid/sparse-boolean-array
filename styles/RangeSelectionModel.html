@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: RangeSelectionModel</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RangeSelectionModel.html">RangeSelectionModel</a></li></ul><h3>Global</h3><ul><li><a href="global.html#abuts">abuts</a></li><li><a href="global.html#makeRun">makeRun</a></li><li><a href="global.html#merge">merge</a></li><li><a href="global.html#overlaps">overlaps</a></li><li><a href="global.html#subtract">subtract</a></li></ul>
+</nav>
+<div id="main">
+
+    <h1 class="page-title">Class: RangeSelectionModel</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        RangeSelectionModel
+        </h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    <h4 class="name" id="RangeSelectionModel"><span class="type-signature"></span>new RangeSelectionModel<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="RangeSelectionModel.html">RangeSelectionModel</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>This object models selection of &quot;cells&quot; within an abstract single-dimensional matrix.</p>
+<p>Disjoint selections can be built with calls to the following methods:</p>
+<ul>
+<li><a href="RangeSelectionModel.html#select"><code>select(start, stop)</code></a> - Add a range to the matrix.</li>
+<li><a href="RangeSelectionModel.html#deselect"><code>deselect(start, stop)</code></a> - Remove a range from the matrix.</li>
+</ul>
+<p>Two more methods are available:</p>
+<ul>
+<li>Test a cell to see if it <a href="RangeSelectionModel.html#isSelected"><code>isSelected(cell)</code></a></li>
+<li><a href="RangeSelectionModel.html#clear"><code>clear()</code></a> the matrix</li>
+</ul>
+<p>Internally, the selection is run-length-encoded. It is therefore a &quot;sparse&quot; matrix
+with undefined bounds. A single data property called <code>selection</code> is an array that
+contains all the &quot;runs&quot; (ranges) of selected cells albeit in no particular order.
+This property should not normally need to be accessed directly.</p>
+<p>Note: This object should be instantiated with the <code>new</code> keyword.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Self (i.e., <code>this</code> object).</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="RangeSelectionModel.html">RangeSelectionModel</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="selection"><span class="type-signature">(abstract) </span>selection<span class="type-signature"> :Array.Array.number</span></h4>
+
+
+<p class="summary"><p>Unordered list of runs.</p></p>
+
+
+
+<div class="description">
+    <p>A &quot;run&quot; is defined as an Array(2) where:</p>
+<ul>
+<li>element [0] is the beginning of the run</li>
+<li>element [1] is the end of the run (inclusive) and is always &gt;= element [0]
+The order of the runs within is undefined.</li>
+</ul>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Array.Array.number</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="clear"><span class="type-signature"></span>clear<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="RangeSelectionModel.html">RangeSelectionModel</a>}</span></h4>
+
+    
+    <p class="summary"><p>Empties <code>this.selection</code>, effectively removing all runs.</p></p>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Self (i.e., <code>this</code>), for chaining.</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="RangeSelectionModel.html">RangeSelectionModel</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="deselect"><span class="type-signature"></span>deselect<span class="signature">(start, stop<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="RangeSelectionModel.html">RangeSelectionModel</a>}</span></h4>
+
+    
+    <p class="summary"><p>Remove a contiguous run of points from the selection.</p></p>
+    
+
+
+
+<div class="description">
+    <p>Truncate and/or remove run(s) from <code>this.selection</code>.
+Removing part of existing runs will (correctly) shorten them or break them into two fragments.</p>
+<p>The two parameters may be given in either order.</p>
+<p>Note that <code>this.selection</code> is updated in place, preserving validity of any external references.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>start</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>Start of run. May be greater than <code>stop</code>.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>stop</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    stop
+                
+                </td>
+            
+
+            <td class="description last"><p>End of run (inclusive). May be less than <code>start</code>.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Self (i.e., <code>this</code>), for chaining.</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="RangeSelectionModel.html">RangeSelectionModel</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="isSelected"><span class="type-signature"></span>isSelected<span class="signature">(cell)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+    <p class="summary"><p>Determines if the given <code>cell</code> is selected.</p></p>
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cell</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The cell to test for inclusion in the selection.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p><code>true</code> iff given <code>cell</code> is within any of the runs in <code>this.selection</code>.</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="select"><span class="type-signature"></span>select<span class="signature">(start, stop<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="RangeSelectionModel.html">RangeSelectionModel</a>}</span></h4>
+
+    
+    <p class="summary"><p>Add a contiguous run of points to the selection.</p></p>
+    
+
+
+
+<div class="description">
+    <p>Insert a new run into <code>this.selection</code>.
+The new run will be merged with overlapping and adjacent runs.</p>
+<p>The two parameters may be given in either order.
+The start and stop elements in the resulting run will however always be ordered.
+(However, note that the order of the runs within <code>this.selection</code> is itself always unordered.)</p>
+<p>Note that <code>this.selection</code> is updated in place, preserving validity of any external references.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>start</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>Start of run. May be greater than <code>stop</code>.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>stop</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    stop
+                
+                </td>
+            
+
+            <td class="description last"><p>End of run (inclusive). May be less than <code>start</code>.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Self (i.e., <code>this</code>), for chaining.</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="RangeSelectionModel.html">RangeSelectionModel</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    © 2015 <a href="http://www.openfin.co" target="_blank">OpenFin</a> All Rights Reserved.
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
