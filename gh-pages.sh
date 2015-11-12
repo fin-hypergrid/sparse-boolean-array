@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 org="openfin"
+module="sparse-boolean-array"
 
 # set variable repo to current directory name (without path)
 repo=${PWD##*/}

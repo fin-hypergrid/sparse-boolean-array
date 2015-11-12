@@ -23,12 +23,7 @@ var js = {
 gulp.task('lint', lint);
 gulp.task('test', test);
 gulp.task('doc', doc);
-
-gulp.task('rootify', function () {
-    gulp.src(js.dir + 'RangeSelectionModel.js')
-        .pipe($$.rename('index.js'))
-        .pipe(gulp.dest(destDir));
-});
+gulp.task('rootify', rootify);
 
 gulp.task('build', function(callback) {
     clearBashScreen();
@@ -63,6 +58,12 @@ function doc(cb) {
         console.log(stderr);
         cb(err);
     });
+}
+
+function rootify() {
+    return gulp.src(js.dir + 'RangeSelectionModel.js')
+        .pipe($$.rename('index.js'))
+        .pipe(gulp.dest(destDir));
 }
 
 function clearBashScreen() {
